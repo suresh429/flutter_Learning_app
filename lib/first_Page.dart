@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/second_page.dart';
 
+import 'constants.dart';
+
 class MyPage extends StatefulWidget {
   final String name,phone;
   MyPage(this.name, this.phone);
@@ -14,6 +16,8 @@ class MyPage extends StatefulWidget {
 class _MyPageState extends State<MyPage> {
 
   final String name,phone;
+
+  bool _enableBtn= false;
   _MyPageState(this.name, this.phone);
 
   var nameController = TextEditingController();
@@ -22,6 +26,7 @@ class _MyPageState extends State<MyPage> {
   var passwordController = TextEditingController();
   String _name,_email,_phone,_password;
   var _formKey = GlobalKey<FormState>();
+
 
 
   @override
@@ -48,6 +53,7 @@ class _MyPageState extends State<MyPage> {
           child: Container(
             child: Form(
               key: _formKey,
+              onChanged: () => setState(() => _enableBtn = _formKey.currentState.validate()),
               child: Column(
                 children: <Widget>[
                   Text("Name : "+name.toString()),
@@ -108,7 +114,7 @@ class _MyPageState extends State<MyPage> {
                     height: 20,
                   ),
                   TextFormField(
-                    validator: (item) => item.length > 6 ? null : "Enter 6 characters",
+                    validator: (item) => validateStructure(item) ? null : "Enter 6 characters",
                     onChanged: (item)=> setState(() => _name = item),
                     obscureText: true,
                     controller: passwordController,
@@ -127,25 +133,7 @@ class _MyPageState extends State<MyPage> {
                     width: double.infinity,
                     height: 50.0,
                     child: RaisedButton(
-                      onPressed: () {
-
-                        if(_formKey.currentState.validate()){
-                          print("Result : "+nameController.text+"\n"
-                              +emailController.text+"\n"
-                              +phoneController.text+"\n"
-                              +passwordController.text+"\n");
-
-                          nameController.clear();
-                          emailController.clear();
-                          phoneController.clear();
-                          passwordController.clear();
-
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => SecondPage()));
-                        }else{
-                          print("No data Found");
-                        }
-
-                      },
+                      onPressed: _enableBtn ? () => submitMethod() : null,
                       color: Colors.deepOrange,
                       child: Text(
                         "Submit",
@@ -163,6 +151,25 @@ class _MyPageState extends State<MyPage> {
         ),
       ),
     );
+  }
+
+  submitMethod() {
+    if(_formKey.currentState.validate()){
+      print("Result : "+nameController.text+"\n"
+          +emailController.text+"\n"
+          +phoneController.text+"\n"
+          +passwordController.text+"\n");
+
+      nameController.clear();
+      emailController.clear();
+      phoneController.clear();
+      passwordController.clear();
+
+      Navigator.push(context, MaterialPageRoute(builder: (_) => SecondPage()));
+    }else{
+      print("No data Found");
+    }
+
   }
 }
 

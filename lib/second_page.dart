@@ -14,8 +14,6 @@ class _SecondPageState extends State<SecondPage> {
   List<Users> users;
   bool isLoading;
 
-  List<String> _list = ["0","1","2","3","4","5","6","7","8","9","0","1","2","3","4","5","6","7","8","9"];
-
   @override
   void initState() {
     // TODO: implement initState
@@ -45,18 +43,40 @@ class _SecondPageState extends State<SecondPage> {
     return isLoading
         ? Center(child: CircularProgressIndicator())
         : ListView.builder(
+          scrollDirection: Axis.vertical,
             itemCount: users == null ? 0 : users.length,
             itemBuilder: (context, index) {
               Users user = users[index];
-              return Card(
-                child: ListTile(
-                  title: Text(user.name),
-                  subtitle: Text(user.address.city),
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => MyPage(user.name, user.phone))),
-                ),
+              return Row(
+                children: [
+
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5.0),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 1
+                        )
+                      ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(user.name),
+                        )),
+                  ),
+
+                ],
+               /* child: Card(
+                  child: ListTile(
+                    title: Text(user.name),
+                    subtitle: Text(user.address.city),
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => MyPage(user.name, user.phone))),
+                  ),
+                ),*/
               );
             },
           );
@@ -175,6 +195,7 @@ class _SecondPageState extends State<SecondPage> {
     return isLoading
         ? Center(child: CircularProgressIndicator())
         : GridView.count(
+      scrollDirection: Axis.vertical,
       semanticChildCount :users == null ? 0 : users.length ,
       crossAxisCount: 2,
       crossAxisSpacing: 10,
@@ -203,6 +224,80 @@ class _SecondPageState extends State<SecondPage> {
           ),
         );
       }).toList(),
+    );
+  }
+
+  Widget _listAndGrid(){
+    return SingleChildScrollView(
+      child :  Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Text(
+            'Headline',
+            style: TextStyle(fontSize: 18),
+          ),
+          SizedBox(
+            height: 200.0,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: 15,
+              itemBuilder: (BuildContext context, int index) => Card(
+                child: Center(child: Text('Dummy Card Text')),
+              ),
+            ),
+          ),
+          Text(
+            'Demo Headline 2',
+            style: TextStyle(fontSize: 18),
+          ),
+          Card(
+            child: ListTile(
+                title: Text('Motivation $int'),
+                subtitle: Text('this is a description of the motivation')),
+          ),
+          Card(
+            child: ListTile(
+                title: Text('Motivation $int'),
+                subtitle: Text('this is a description of the motivation')),
+          ),
+          Card(
+            child: ListTile(
+                title: Text('Motivation $int'),
+                subtitle: Text('this is a description of the motivation')),
+          ),
+          Card(
+            child: ListTile(
+                title: Text('Motivation $int'),
+                subtitle: Text('this is a description of the motivation')),
+          ),
+          Card(
+            child: ListTile(
+                title: Text('Motivation $int'),
+                subtitle: Text('this is a description of the motivation')),
+          ),
+          Card(
+            child: ListTile(
+                title: Text('Motivation $int'),
+                subtitle: Text('this is a description of the motivation')),
+          ),
+          Card(
+            child: ListTile(
+                title: Text('Motivation $int'),
+                subtitle: Text('this is a description of the motivation')),
+          ),
+          Card(
+            child: ListTile(
+                title: Text('Motivation $int'),
+                subtitle: Text('this is a description of the motivation')),
+          ),
+          Card(
+            child: ListTile(
+                title: Text('Motivation $int'),
+                subtitle: Text('this is a description of the motivation')),
+          )
+        ],
+      ),
     );
   }
 }
